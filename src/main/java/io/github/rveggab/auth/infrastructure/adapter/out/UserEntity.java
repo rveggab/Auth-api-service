@@ -34,6 +34,6 @@ public class UserEntity {
     @Column(nullable = false, length = 1)
     @Enumerated(EnumType.STRING)
     private UserStatus status;
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 }

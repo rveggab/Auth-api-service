@@ -6,8 +6,14 @@ import io.github.rveggab.auth.domain.exceptions.EntityAlreadyExistsException;
 import io.github.rveggab.auth.domain.exceptions.InvalidDataException;
 import io.github.rveggab.auth.domain.model.enums.UserStatus;
 import io.github.rveggab.auth.domain.model.identity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RegisterUserCase implements RegisterUserInPort {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final UserRepositoryOutPort outPort;
 
@@ -25,6 +31,9 @@ public class RegisterUserCase implements RegisterUserInPort {
 
         if (outPort.findByEmail(user.getEmail()).isPresent())
             throw new EntityAlreadyExistsException("Este email ya esta en uso");
+
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
 
         user.setStatus(UserStatus.A);
         return outPort.save(user);

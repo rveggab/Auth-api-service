@@ -49,26 +49,7 @@ public class UserPersistenceAdapter implements UserRepositoryOutPort {
     }
 
     @Override
-    public void updatePassword(Long id, String encodedPassword) {
-        userAdapter.findById(id).ifPresent(entity -> {
-            entity.setPassword(encodedPassword);
-            userAdapter.save(entity);
-        });
-    }
+    public void delete(Long id) {
 
-    @Override
-    public void updateStatus(Long id, UserStatus userStatus) {
-        userAdapter.findById(id).ifPresent(entity -> {
-            entity.setStatus(userStatus);
-            userAdapter.save(entity);
-        });
-    }
-
-    @Override
-    public void updateRole(Long id, UserRoles userRoles) {
-        userAdapter.findById(id).ifPresent(entity -> {
-            entity.setRole(userRoles);
-            userAdapter.save(entity);
-        });
     }
 }
