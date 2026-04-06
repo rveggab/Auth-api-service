@@ -1,15 +1,15 @@
 package io.github.rveggab.auth.infrastructure.adapter.in.web.controller;
 
-import io.github.rveggab.auth.application.ports.in.FindUserInPort;
-import io.github.rveggab.auth.application.ports.in.RegisterUserInPort;
-import io.github.rveggab.auth.application.ports.in.UpdateUserInPort;
+import io.github.rveggab.auth.application.ports.in.user.FindUserInPort;
+import io.github.rveggab.auth.application.ports.in.user.RegisterUserInPort;
+import io.github.rveggab.auth.application.ports.in.user.UpdateUserInPort;
 import io.github.rveggab.auth.domain.model.identity.User;
 import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.BaseApiResponse;
-import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.request.UpdateUserAdminRequest;
-import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.request.UpdateUserRequest;
-import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.request.UserRequest;
-import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.response.UserDetailResponse;
-import io.github.rveggab.auth.infrastructure.adapter.mapper.UserResponseMapper;
+import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.request.user.UpdateUserAdminRequest;
+import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.request.user.UpdateUserRequest;
+import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.request.user.UserRequest;
+import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.response.user.UserDetailResponse;
+import io.github.rveggab.auth.infrastructure.adapter.mapper.user.UserResponseMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class UserController {
     private final FindUserInPort findUserInPort;
     private final UpdateUserInPort updateUserInPort;
 
-    @GetMapping()
+    @GetMapping
     @Operation(summary = "Get list with all user", description = "Return a list with all registered users")
     public ResponseEntity<BaseApiResponse<List<UserDetailResponse>>> findUsers() {
 
@@ -73,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping()
-    @Operation(summary = "Create a ner user", description = "Register a new user using a request with all data")
+    @Operation(summary = "Create a new user", description = "Register a new user using a request with all data")
     public ResponseEntity<BaseApiResponse<Void>> register(@RequestBody UserRequest request) {
 
         User newUser = new User(
@@ -120,11 +120,12 @@ public class UserController {
     @PatchMapping("/{id}/permission")
     @Operation(summary = "Update permission for users", description = "Change permission of any user if do you have admin profile")
     public ResponseEntity<BaseApiResponse<Void>> removeUserField(
+            @RequestHeader("adminId") long admin,
             @PathVariable Long id,
             @RequestBody UpdateUserAdminRequest adminRequest
     ) {
 
-        updateUserInPort.updatePermission(id, adminRequest);
+        updateUserInPort.updatePermission(admin,id, adminRequest);
 
         return ResponseEntity.ok(
                 BaseApiResponse.<Void>builder()

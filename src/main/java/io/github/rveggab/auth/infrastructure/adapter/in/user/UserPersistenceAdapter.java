@@ -1,11 +1,9 @@
 package io.github.rveggab.auth.infrastructure.adapter.in.user;
 
 import io.github.rveggab.auth.application.ports.out.UserRepositoryOutPort;
-import io.github.rveggab.auth.domain.model.enums.UserRoles;
-import io.github.rveggab.auth.domain.model.enums.UserStatus;
 import io.github.rveggab.auth.domain.model.identity.User;
-import io.github.rveggab.auth.infrastructure.adapter.mapper.UserMapper;
-import io.github.rveggab.auth.infrastructure.adapter.out.UserEntity;
+import io.github.rveggab.auth.infrastructure.adapter.mapper.user.UserMapper;
+import io.github.rveggab.auth.infrastructure.adapter.out.persistence.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserPersistenceAdapter implements UserRepositoryOutPort {
 
-    private final JpaUserAdapter userAdapter;
+    private final JpaUserRepository userAdapter;
 
     @Override
     public Optional<User> findById(Long id) {
@@ -48,8 +46,4 @@ public class UserPersistenceAdapter implements UserRepositoryOutPort {
         return UserMapper.toDomain(saveEntity);
     }
 
-    @Override
-    public void delete(Long id) {
-
-    }
 }

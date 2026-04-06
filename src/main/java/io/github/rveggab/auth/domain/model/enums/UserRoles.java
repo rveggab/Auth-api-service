@@ -1,7 +1,7 @@
 package io.github.rveggab.auth.domain.model.enums;
 
 public enum UserRoles {
-
+    S("super"),
     A("admin"),
     U("user");
 
