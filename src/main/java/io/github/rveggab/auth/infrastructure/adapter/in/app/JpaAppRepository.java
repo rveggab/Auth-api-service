@@ -9,7 +9,6 @@ import java.util.Optional;
 @Repository
 public interface JpaAppRepository extends JpaRepository<AppEntity, Long> {
     Optional<AppEntity> findByName(String appName);
-    Optional<AppEntity> findByClientId(String idClient);
     Optional<AppEntity> findByBaseUrl(String url);
 
 }

@@ -8,7 +8,10 @@ import java.util.List;
 public class AppMapperResponse {
     public static AppDetailResponse toAppDetail(App app){
         return AppDetailResponse.builder()
+                .id(app.getId())
                 .appName(app.getName())
+                .idClient("")
+                .secret("")
                 .url(app.getUrl())
                 .status(app.getStatus().toString())
                 .build();

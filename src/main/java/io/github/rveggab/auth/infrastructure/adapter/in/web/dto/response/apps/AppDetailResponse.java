@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class AppDetailResponse {
+    private Long id;
     private String appName;
     private String idClient;
     private String secret;

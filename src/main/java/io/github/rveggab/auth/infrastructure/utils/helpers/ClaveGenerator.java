@@ -22,7 +22,7 @@ public class ClaveGenerator {
         for (int i = 0; i<length; i++){
             homoclave.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
         }
-        return base.toUpperCase().concat("-".concat(homoclave.toString()));
+        return base.toUpperCase().concat("_".concat(homoclave.toString()));
     }
 
 

@@ -6,6 +6,7 @@ import io.github.rveggab.auth.application.useCase.app.UpdateAppCase;
 import io.github.rveggab.auth.domain.model.identity.App;
 import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.BaseApiResponse;
 import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.request.app.AppRequest;
+import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.request.app.UpdateAppRequest;
 import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.response.apps.AppDetailResponse;
 import io.github.rveggab.auth.infrastructure.adapter.mapper.app.AppMapperResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,7 +74,7 @@ public class ApplicationController {
 
     @PostMapping
     @Operation(summary = "Create a new app", description = "Register a new app, using a request with all data")
-    public ResponseEntity<BaseApiResponse<AppDetailResponse>> register(@RequestBody AppRequest request){
+    public ResponseEntity<BaseApiResponse<AppDetailResponse>> register(@RequestBody AppRequest request) {
 
         App newApp = new App(
                 null,
@@ -88,12 +89,45 @@ public class ApplicationController {
         AppDetailResponse detail = AppMapperResponse.lastNewLog(newApp);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-            BaseApiResponse.<AppDetailResponse>builder()
-                    .timestamp(LocalDateTime.now())
-                    .status(HttpStatus.CREATED.value())
-                    .data(detail)
-                    .message("Has created a new user successful")
-                    .build()
+                BaseApiResponse.<AppDetailResponse>builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.CREATED.value())
+                        .data(detail)
+                        .message("Has created a new user successful")
+                        .build()
+        );
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Update fields of app", description = "Update fields to app register")
+    public ResponseEntity<BaseApiResponse<Void>> updateAppField(
+            @PathVariable Long id,
+            @RequestBody UpdateAppRequest request
+    ) {
+        updateApp.updateAppData(id, request);
+
+        return ResponseEntity.ok(
+                BaseApiResponse.<Void>builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.OK.value())
+                        .message("Has updated to field")
+                        .build()
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a app register", description = "Delete the app register, for all users")
+    public ResponseEntity<BaseApiResponse<Void>> deleteUserField(
+            @PathVariable Long id
+    ) {
+        updateApp.delete(id);
+
+        return ResponseEntity.ok(
+                BaseApiResponse.<Void>builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.OK.value())
+                        .message("This app has deleted successful")
+                        .build()
         );
     }
 }

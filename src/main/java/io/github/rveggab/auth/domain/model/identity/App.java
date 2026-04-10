@@ -47,4 +47,8 @@ public class App {
     public void changeSecret(String newSecret){
         this.clientSecret = newSecret;
     }
+
+    public void changeClientId(String clientId){
+        this.clientId = clientId;
+    }
 }

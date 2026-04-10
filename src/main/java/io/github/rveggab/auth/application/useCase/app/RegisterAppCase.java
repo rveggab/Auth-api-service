@@ -5,7 +5,6 @@ import io.github.rveggab.auth.application.ports.out.AppRepositoryOutPort;
 import io.github.rveggab.auth.domain.model.identity.App;
 import io.github.rveggab.auth.infrastructure.utils.helpers.ClaveGenerator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,8 +14,10 @@ public class RegisterAppCase implements RegisterAppInPort {
 
     @Override
     public App execute(App app) {
+
         // create new clientID
-        String newClientId = ClaveGenerator.buildClave(app.getName(), 3);
+        String cleanName = app.getName().replace(" ", "_");
+        String newClientId = ClaveGenerator.buildClave(cleanName, 3);
         app.createId(newClientId);
 
         // create new client secret

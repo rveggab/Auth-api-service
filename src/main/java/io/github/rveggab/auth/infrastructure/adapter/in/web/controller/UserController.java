@@ -147,7 +147,7 @@ public class UserController {
                 BaseApiResponse.<Void>builder()
                         .timestamp(LocalDateTime.now())
                         .status(HttpStatus.OK.value())
-                        .message("Usuario dado de baja exitosamente")
+                        .message("This user has be deleted successful")
                         .build()
         );
     }

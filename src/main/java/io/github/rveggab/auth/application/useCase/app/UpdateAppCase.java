@@ -6,6 +6,7 @@ import io.github.rveggab.auth.domain.exceptions.EntityNotFoundException;
 import io.github.rveggab.auth.domain.model.enums.AppStatus;
 import io.github.rveggab.auth.domain.model.identity.App;
 import io.github.rveggab.auth.infrastructure.adapter.in.web.dto.request.app.UpdateAppRequest;
+import io.github.rveggab.auth.infrastructure.utils.helpers.ClaveGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,14 @@ public class UpdateAppCase implements UpdateAppInPort {
         App app = appRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("App not found"));
 
-        if (request.getName() != null && !request.getName().isEmpty())
+        if (request.getName() != null && !request.getName().isEmpty()){
             app.changeAppName(app.getName());
+
+            String cleanName = app.getName().replace(" ", "_");
+            String changeAppClient = ClaveGenerator.buildClave(cleanName, 3);
+
+            app.changeClientId(changeAppClient);
+        }
 
         if (request.getBaseUrl() != null && !request.getBaseUrl().isEmpty())
             app.changeUrl(request.getBaseUrl());
